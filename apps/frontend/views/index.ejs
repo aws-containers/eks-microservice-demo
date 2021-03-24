@@ -1,0 +1,44 @@
+<!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
+<!-- SPDX-License-Identifier: MIT-0 -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Product Catalog Detail</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+
+  </head>
+  <script>
+    function refreshPage(){
+        window.location.reload();
+    }
+  </script>
+
+  <body>
+    <h1 data-position="header">Product Catalog Detail</h1>
+            <p>
+                <b>Version</b> : <mark class="red"><b><%= version%></b></mark>
+            </p>
+             <%if (Object.keys(vendors).length > 0) { %>
+                        <table class="table">
+                        <tr
+                            <tr>
+                                <th>Catalog Vendors</th>
+                            </tr>
+                            <% for(var i = 0; i < Object.keys(vendors).length; i++) { %>
+                                <tr>
+                                    <td><%= Object.values(vendors)[i] %> </td>
+                                </tr>
+
+                            <% }; %>
+
+                        </table>
+             <% }  %>
+
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,94 @@
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: detail
+  namespace: flagger
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: detail
+  minReplicas: 2
+  maxReplicas: 4
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          # scale up if usage is above
+          # 99% of the requested CPU (100m)
+          averageUtilization: 99
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: detail
+  namespace: flagger
+  labels:
+    app: detail
+spec:
+  minReadySeconds: 5
+  revisionHistoryLimit: 5
+  progressDeadlineSeconds: 60
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: detail
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9797"
+        timestamp: "2021-03-22T14:24:48+0000"
+      labels:
+        app: detail
+    spec:
+      containers:
+        - name: detail
+          image: "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/eks-app-mesh-demo/detail_flagger:${APP_VERSION_3}"
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+            - name: http-metrics
+              containerPort: 9797
+              protocol: TCP
+          # - name: grpc
+          #   containerPort: 9999
+          #   protocol: TCP
+          # command:
+          # - ./podinfo
+          # - --port=9898
+          # - --port-metrics=9797
+          # - --grpc-port=9999
+          # - --grpc-service-name=podinfo
+          # - --level=info
+          # - --random-delay=false
+          # - --random-error=false
+          # env:
+          # - name: PODINFO_UI_COLOR
+          #   value: "#34577c"
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: 3000
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            timeoutSeconds: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: 3000
+            successThreshold: 3
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+---
