@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "helm-chart.fullname" . }}
+  name:  {{ .Values.detail.name }}
   namespace: {{ .Values.detail.namespace }}
 spec:
   replicas: {{ .Values.detail.replicaCount }}
   selector:
     matchLabels:
-      app: {{ include "helm-chart.name" . }}
+      app: {{ .Values.detail.name }}
   template:
     metadata:
       labels:
-        app: {{ include "helm-chart.name" . }}
+        app: {{ .Values.detail.name }}
     spec:
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ .Values.detail.name }}
           image: "{{ .Values.detail.image.repository }}:{{ .Values.detail.image.tag }}"
           imagePullPolicy: {{ .Values.detail.image.pullPolicy }}
           ports:

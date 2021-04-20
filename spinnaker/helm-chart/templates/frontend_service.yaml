@@ -3,12 +3,15 @@ kind: Service
 metadata:
   name: {{ .Values.frontend.name }}
   namespace: {{ .Values.frontend.namespace }}
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: {{ .Values.frontend.lbType }}
   labels:
     app: {{ .Values.frontend.name }}
 spec:
   type: {{ .Values.frontend.service.type }}
   ports:
-    - port: {{ .Values.frontend.service.targetPort }}
-      name: http
+    - targetPort: {{ .Values.frontend.service.targetPort }}
+      port: {{ .Values.frontend.service.port }}
+      name: {{ .Values.frontend.service.name }}
   selector:
     app: {{ .Values.frontend.name }}
