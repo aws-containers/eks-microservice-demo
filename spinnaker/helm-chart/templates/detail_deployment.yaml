@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "helm-chart.fullname" . }}
+  namespace: {{ .Values.detail.namespace }}
+spec:
+  replicas: {{ .Values.detail.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "helm-chart.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "helm-chart.name" . }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.detail.image.repository }}:{{ .Values.detail.image.tag }}"
+          imagePullPolicy: {{ .Values.detail.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.detail.service.targetPort }}
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.detail.resources | nindent 12 }}
+      {{- with .Values.detail.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.detail.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.detail.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

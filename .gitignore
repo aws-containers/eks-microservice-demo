@@ -6,7 +6,7 @@ apps/frontend/.DS_Store
 apps/product_catalog/.DS_Store
 apps/frontend/.idea/
 apps/frontend/public/.DS_Store
-deployment/.DS_Store
+flagger/.DS_Store
 apps/detail/node_modules/
 apps/detail/output.log
 apps/frontend/node_modules/

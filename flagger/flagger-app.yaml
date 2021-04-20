@@ -50,7 +50,7 @@ spec:
     spec:
       containers:
         - name: detail
-          image: "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/eks-app-mesh-demo/detail:${APP_VERSION}"
+          image: "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/eks-microservice-demo/detail:${APP_VERSION}"
           imagePullPolicy: Always
           ports:
             - name: http

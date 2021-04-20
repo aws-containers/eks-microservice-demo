@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "helm-chart.fullname" . }}
+  namespace: {{ .Values.detail.namespace }}
+  labels:
+    app: {{ include "helm-chart.name" . }}
+spec:
+  type: {{ .Values.detail.service.type }}
+  ports:
+    - port: {{ .Values.detail.service.targetPort }}
+      name: http
+  selector:
+    app: {{ include "helm-chart.name" . }}
