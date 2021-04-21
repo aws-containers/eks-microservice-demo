@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/eks-microservice-demo/frontend:${APP_VERSION}"
+          image: "public.ecr.aws/u2g6w7p2/eks-microservice-demo/frontend:${APP_VERSION}"
           imagePullPolicy: Always
           livenessProbe:
             httpGet:
