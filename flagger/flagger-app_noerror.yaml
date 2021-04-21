@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: detail
-          image: "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/eks-app-mesh-demo/detail:${APP_VERSION_3}"
+          image: "public.ecr.aws/u2g6w7p2/eks-microservice-demo/detail:${APP_VERSION_3}"
           imagePullPolicy: Always
           ports:
             - name: http
