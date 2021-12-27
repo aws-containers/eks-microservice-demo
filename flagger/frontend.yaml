@@ -17,6 +17,7 @@ spec:
       labels:
         app: frontend
     spec:
+      serviceAccountName: flagger-envoy-proxies
       containers:
         - name: frontend
           image: "public.ecr.aws/u2g6w7p2/eks-microservice-demo/frontend:${APP_VERSION}"
